@@ -1,7 +1,7 @@
-import Categories from '../Models/category.model.js'
-import Types from '../Models/type.model.js';
+import Category from '../Models/category.model.js'
+import Type from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
+import { QueryParamsHandle } from '../Middleware/helpers.js';
 import { Sequelize } from 'sequelize';
 
 class CategoryController {
@@ -20,11 +20,11 @@ class CategoryController {
 
 		if(incl_types) {
 			// Definerer relation mellem by og hotel - one to many
-			Types.belongsToMany(Categories, { through: CategoryTypeRel });
-			Categories.belongsToMany(Types, { through: CategoryTypeRel });
+			Type.belongsToMany(Category, { through: CategoryTypeRel });
+			Category.belongsToMany(Type, { through: CategoryTypeRel });
 
 			arrIncludes.push({
-				model: Types,
+				model: Type,
 				attributes: ['id','title'],
 				through: {
 					attributes: ['is_allowed', 'is_station', 'is_home'],
@@ -35,7 +35,7 @@ class CategoryController {
 
 		try {
 			// Kalder SQ model
-			const result = await Categories.findAll({
+			const result = await Category.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: [
@@ -78,15 +78,15 @@ class CategoryController {
 			// Sætter resultat efter sq metode
 			try {
 				// Definerer types relationer 
-				Types.belongsToMany(Categories, { through: CategoryTypeRel });
-				Categories.belongsToMany(Types, { through: CategoryTypeRel });
+				Type.belongsToMany(Category, { through: CategoryTypeRel });
+				Category.belongsToMany(Type, { through: CategoryTypeRel });
 
 				// Deklarerer array med category table joins
 				const arrCatIncludes = []
 
 				// Deklarerer array med types table joins
 				arrCatIncludes.push({
-					model: Types,
+					model: Type,
 					attributes: ['id','title'],
 					through: {
 						attributes: ['is_allowed', 'is_station', 'is_home'],
@@ -96,7 +96,7 @@ class CategoryController {
 
 				console.log(arrCatIncludes);
 
-				const result = await Categories.findOne({
+				const result = await Category.findOne({
 					attributes: [
 						'id', 
 						'title',

@@ -1,5 +1,5 @@
-import sequelize from "../../Config/sequelize.config.js"
-import Orders from "../Models/order.model.js"
+import sequelize from "../Config/sequelize.config.js"
+import Order from "../Models/order.model.js"
 import { Sequelize } from "sequelize"
 
 /**
@@ -25,7 +25,7 @@ class OrderController {
       : new Array("id", "fullname", "email")
 
     // Eksekverer sequelize metode med management values
-    const result = await Orders.findAll({
+    const result = await Order.findAll({
       attributes: attr,
       order: [order],
       limit: limit
@@ -43,7 +43,7 @@ class OrderController {
     // Destructure assignment af id.
     const { id } = req.params || 0
     // Eksekverer sequelize metode med attributter og where clause
-    const result = await Orders.findOne({
+    const result = await Order.findOne({
       where: { id: id }
     })
     // Udskriver resultat i json format
@@ -61,7 +61,7 @@ class OrderController {
 
 		if(fullname && address && zipcode && city && email) {
 			try {
-				const model = await Orders.create(req.body)
+				const model = await Order.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id

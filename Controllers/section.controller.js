@@ -1,17 +1,17 @@
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
-import Sections from '../Models/section.model.js'
-import Categories from '../Models/category.model.js';
-import Types from '../Models/type.model.js';
+import { QueryParamsHandle } from '../Middleware/helpers.js';
+import Section from '../Models/section.model.js'
+import Category from '../Models/category.model.js';
+import Type from '../Models/type.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 import { Sequelize } from 'sequelize';
 
 // Definerer category relationer 
-Sections.hasMany(Categories)
-Categories.belongsTo(Sections)
+Section.hasMany(Category)
+Category.belongsTo(Section)
 
 // Definerer types relationer 
-Types.belongsToMany(Categories, { through: CategoryTypeRel });
-Categories.belongsToMany(Types, { through: CategoryTypeRel });
+Type.belongsToMany(Category, { through: CategoryTypeRel });
+Category.belongsToMany(Type, { through: CategoryTypeRel });
 
 
 class SectionController {
@@ -41,7 +41,7 @@ class SectionController {
 				
 				// Deklarerer array med types table joins
 				arrCatIncludes.push({
-					model: Types,
+					model: Type,
 					attributes: ['id','title'],
 					through: {
 						attributes: ['is_allowed', 'is_station', 'is_home'],
@@ -53,7 +53,7 @@ class SectionController {
 
 			// Samler join array
 			arrIncludes.push({
-				model: Categories,
+				model: Category,
 				attributes: [
 					'title', 'icon_filename',  
 					[Sequelize.fn(	
@@ -73,7 +73,7 @@ class SectionController {
 
 		try {
 			// Kalder SQ model
-			const result = await Sections.findAll({
+			const result = await Section.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: [
@@ -108,7 +108,7 @@ class SectionController {
 		if(id) {
 			// Sætter resultat efter sq metode
 			try {
-				const result = await Sections.findOne({
+				const result = await Section.findOne({
 					attributes: [
 						'id', 
 						'title', 
@@ -124,7 +124,7 @@ class SectionController {
 						'updated_at'
 					],
 					include: {
-						model: Categories,
+						model: Category,
 						attributes: [
 							'id', 
 							'title', 
@@ -172,7 +172,7 @@ class SectionController {
 
 		if(title && description && color && image_id) {
 			try {
-				const model = await Sections.create(req.body)
+				const model = await Section.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -200,7 +200,7 @@ class SectionController {
 
 		if(id) {
 			try {
-				const model = await Sections.update(req.body, {
+				const model = await Section.update(req.body, {
 					where: {id: id}
 				})
 				return res.json({
@@ -228,7 +228,7 @@ class SectionController {
 
 		if(id) {
 			try {
-				await Sections.destroy({ 
+				await Section.destroy({ 
 					where: { id: id }
 				})
 				res.sendStatus(200)

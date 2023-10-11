@@ -1,11 +1,11 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Sections extends Model {}
+class Section extends Model {}
 
 // Initialiserer model
-Sections.init({
+Section.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -39,4 +39,4 @@ Sections.init({
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Sections
+export default Section

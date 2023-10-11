@@ -1,17 +1,17 @@
-import Users from '../Models/user.model.js'
-import Groups from '../Models/group.model.js'
-import UserGroupRel from '../Models/user-group-rel.model.js'
-import Orgs from '../Models/org.model.js'
+import User from '../../Models/System/user.model.js'
+import Groups from '../../Models/System/group.model.js'
+import UserGroupRel from '../../Models/System/user-group-rel.model.js'
+import Org from '../../Models/System/org.model.js'
 import { QueryParamsHandle } from '../../Middleware/helpers.js'
 
 // Definerer relation mellem user og org - one to many
-Orgs.hasMany(Users)
-Users.belongsTo(Orgs)
+Org.hasMany(User)
+User.belongsTo(Org)
 
 // Definerer relation mellem user og usergroups - many to many
 
-Users.belongsToMany(Groups, { through: UserGroupRel });
-Groups.belongsToMany(Users, { through: UserGroupRel });
+User.belongsToMany(Groups, { through: UserGroupRel });
+Groups.belongsToMany(User, { through: UserGroupRel });
 
 /**
  * Controller for User Actions
@@ -29,12 +29,12 @@ class UserController {
 
 		// Eksekverer sequelize metode med management values
 		try {
-			const result = await Users.findAll({
+			const result = await User.findAll({
 				attributes: qp.attributes,
 				order: [qp.sort_key],
 				limit: qp.limit,
 				include: {
-					model: Orgs,
+					model: Org,
 					attributes: ['id', 'name']
 				},
 				include: {
@@ -63,7 +63,7 @@ class UserController {
 		if(id) {
 			try {
 				// Eksekverer sequelize metode med attributter og where clause
-				const result = await Users.findOne({
+				const result = await User.findOne({
 					attributes: [
 						'id', 
 						'firstname', 
@@ -103,7 +103,7 @@ class UserController {
 			
 			try {
 				// Opretter record
-				const model = await Users.create(req.body)
+				const model = await User.create(req.body)
 
 				if(groups) {
 					groups.split(',').map(value => {
@@ -141,7 +141,7 @@ class UserController {
 
 			try {
 				// Opretter record
-				const model = await Users.update(req.body, {
+				const model = await User.update(req.body, {
 					where: { id: id },
 					individualHooks: true
 				})
@@ -181,7 +181,7 @@ class UserController {
 				const dataObj = {}
 				dataObj[field] = value
 
-				const model = await Users.update(dataObj,{ 
+				const model = await User.update(dataObj,{ 
 					where: { id: user_id },
 					individualHooks: true
 				})
@@ -209,7 +209,7 @@ class UserController {
 		const { id } = req.params
 
 		try {
-			await Users.destroy({ 
+			await User.destroy({ 
 				where: { id: id }
 			})
 			res.status(200).send({

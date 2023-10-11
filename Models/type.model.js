@@ -1,10 +1,9 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Categories from './category.model.js'
 
-class Types extends Model{}
+class Type extends Model{}
 
-Types.init({
+Type.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -22,4 +21,4 @@ Types.init({
 	underscored: true,
 })
 
-export default Types
+export default Type

@@ -1,16 +1,25 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
+import Container from './container.model.js'
 
-class Orgs extends Model {}
+class Order extends Model{}
 
-Orgs.init({
+Order.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
 	},
-	name: {
+	container_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: Container,
+			key: 'id'
+		}
+	},
+	fullname: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
@@ -26,30 +35,18 @@ Orgs.init({
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	country: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
 	phone: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: false
-	},
-	longtitude: {
-		type: DataTypes.DOUBLE,
-		allowNull: true
-	},
-	latitude: {
-		type: DataTypes.DOUBLE,
-		allowNull: true
 	}
-},{
+}, {
 	sequelize,
-	modelName: 'org',
-	underscored: true
+	modelName: 'order',
+	underscored: true,
 })
 
-export default Orgs
+export default Order

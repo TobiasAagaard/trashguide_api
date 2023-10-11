@@ -1,12 +1,12 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Orgs from '../../Core/Models/org.model.js'
+import Orgs from './System/org.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Reviews extends Model {}
+class Review extends Model {}
 
 // Initialiserer model
-Reviews.init({
+Review.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -60,4 +60,4 @@ Reviews.init({
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Reviews
+export default Review

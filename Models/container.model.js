@@ -1,9 +1,9 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
-class Containers extends Model{}
+class Container extends Model{}
 
-Containers.init({
+Container.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -24,4 +24,4 @@ Containers.init({
 	underscored: true
 })
 
-export default Containers
+export default Container

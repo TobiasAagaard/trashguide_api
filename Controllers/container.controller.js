@@ -1,5 +1,5 @@
-import Containers from '../Models/container.model.js'
-import { QueryParamsHandle } from '../../Middleware/helpers.js'
+import Container from '../Models/container.model.js'
+import { QueryParamsHandle } from '../Middleware/helpers.js'
 
 /**
  * Controller for UserGroup Actions
@@ -17,7 +17,7 @@ class ContainerController {
 
 		try {
 			// Eksekverer sequelize metode med management values
-			const result = await Containers.findAll({
+			const result = await Container.findAll({
 				attributes: qp.attributes,
 				order: [qp.sort_key],
 				limit: qp.limit
@@ -43,7 +43,7 @@ class ContainerController {
 		if(id) {
 			try {
 				// Eksekverer sequelize metode med attributter og where clause
-				const result = await Containers.findOne({
+				const result = await Container.findOne({
 					attributes: ['id', 'name', 'icon_filename'],
 					where: { id: id }
 				})
@@ -73,7 +73,7 @@ class ContainerController {
 		if(name && description) {
 			try {
 				// Opretter record
-				const model = await Containers.create(req.body)
+				const model = await Container.create(req.body)
 				// Sender nyt id som json object
 				res.json({
 					message: `Record created`,
@@ -105,7 +105,7 @@ class ContainerController {
 		if(id && name && description) {
 			try {
 				// Opretter record
-				const model = await Containers.update(req.body, {
+				const model = await Container.update(req.body, {
 					where: { id: id }
 				})
 				// Sender nyt id som json object
@@ -134,7 +134,7 @@ class ContainerController {
 
 		if(id) {
 			try {
-				await Containers.destroy({ 
+				await Container.destroy({ 
 					where: { id: id }
 				})
 				res.status(200).send({

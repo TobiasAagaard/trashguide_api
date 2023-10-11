@@ -1,7 +1,7 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Categories from './category.model.js'
-import Types from './type.model.js'
+import Category from './category.model.js'
+import Type from './type.model.js'
 
 class CategoryTypeRel extends Model{}
 
@@ -16,7 +16,7 @@ CategoryTypeRel.init({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: Categories,
+			model: Category,
 			key: 'id'
 		}
 	},
@@ -24,7 +24,7 @@ CategoryTypeRel.init({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: Types,
+			model: Type,
 			key: 'id'
 		}
 	},

@@ -1,7 +1,7 @@
-import { QueryParamsHandle } from "../../Middleware/helpers.js"
-import Sections from "../Models/section.model.js"
-import Categories from "../Models/category.model.js"
-import Types from "../Models/type.model.js"
+import { QueryParamsHandle } from "../Middleware/helpers.js"
+import Section from "../Models/section.model.js"
+import Category from "../Models/category.model.js"
+import Type from "../Models/type.model.js"
 import CategoryTypeRel from "../Models/category_type_rel.model.js"
 import { Sequelize } from "sequelize"
 
@@ -9,12 +9,12 @@ import { Sequelize } from "sequelize"
 const Op = Sequelize.Op
 
 // Definerer category relationer
-Sections.hasMany(Categories)
-Categories.belongsTo(Sections)
+Section.hasMany(Category)
+Category.belongsTo(Section)
 
 // Definerer types relationer
-Types.belongsToMany(Categories, { through: CategoryTypeRel })
-Categories.belongsToMany(Types, { through: CategoryTypeRel })
+Type.belongsToMany(Category, { through: CategoryTypeRel })
+Category.belongsToMany(Type, { through: CategoryTypeRel })
 
 class SearchController {
   /**
@@ -33,7 +33,7 @@ class SearchController {
       const arrResults = []
 
       try {
-        const arrSections = await Sections.findAll({
+        const arrSections = await Section.findAll({
           attributes: [
 			"id", 
 			"title",
@@ -54,7 +54,7 @@ class SearchController {
 
 		arrResults.push(...arrSections)
 
-        const arrCategories = await Categories.findAll({
+        const arrCategories = await Category.findAll({
 			attributes: [
 				"id", 
 				"title",
@@ -75,7 +75,7 @@ class SearchController {
 
 		  arrResults.push(...arrCategories)
   
-		  const arrTypes = await Types.findAll({
+		  const arrTypes = await Type.findAll({
 			attributes: [
 				"id", 
 				"title",

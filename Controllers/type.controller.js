@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize'
-import Types from '../Models/type.model.js'
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
-import Categories from '../Models/category.model.js';
+import Type from '../Models/type.model.js'
+import { QueryParamsHandle } from '../Middleware/helpers.js';
+import Category from '../Models/category.model.js';
 import CategoryTypeRel from '../Models/category_type_rel.model.js';
 
 // Many to many relation
-Types.belongsToMany(Categories, { through: CategoryTypeRel });
-Categories.belongsToMany(Types, { through: CategoryTypeRel });
+Type.belongsToMany(Category, { through: CategoryTypeRel });
+Category.belongsToMany(Type, { through: CategoryTypeRel });
 class TypesController {
 
 	/**
@@ -21,13 +21,13 @@ class TypesController {
 
 		try {
 			// Kalder SQ model
-			const result = await Types.findAll({
+			const result = await Type.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: qp.attributes,
 
 				include: {
-					model: Categories,
+					model: Category,
 					attributes: ['id'],
 					through: {
 						attributes: ['is_allowed', 'is_station', 'is_home'],
@@ -56,7 +56,7 @@ class TypesController {
 		if(id) {
 			// Sætter resultat efter sq metode
 			try {
-				const result = await Types.findOne({
+				const result = await Type.findOne({
 					attributes: [
 						'id', 'title', 'description'
 					],
@@ -94,7 +94,7 @@ class TypesController {
 
 		if(title && description && image_id && category_id) {
 			try {
-				const model = await Types.create(req.body)
+				const model = await Type.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -122,7 +122,7 @@ class TypesController {
 
 		if(id && title && description && image_id && category_id) {
 			try {
-				const model = await Types.update(req.body, {
+				const model = await Type.update(req.body, {
 					where: { id: id }
 				})
 				return res.json({
@@ -150,7 +150,7 @@ class TypesController {
 
 		if(id) {
 			try {
-				await Types.destroy({ 
+				await Type.destroy({ 
 					where: { id: id }
 				})
 				res.sendStatus(200)

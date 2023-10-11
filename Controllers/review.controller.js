@@ -1,14 +1,14 @@
-import Users from '../../Core/Models/user.model.js'
-import Orgs from '../../Core/Models/org.model.js'
-import Reviews from '../Models/review.model.js'
-import { getUserFromToken } from '../../Middleware/auth.js'
+import User from '../Models/System/user.model.js'
+import Org from '../Models/System/org.model.js'
+import Review from '../Models/review.model.js'
+import { getUserFromToken } from '../Middleware/auth.js'
 
 // Sætter modellers relationelle forhold - een til mange
-Users.hasMany(Reviews)
-Reviews.belongsTo(Users)
+User.hasMany(Review)
+Review.belongsTo(User)
 
-Orgs.hasMany(Reviews)
-Reviews.belongsTo(Orgs)
+Org.hasMany(Review)
+Review.belongsTo(Org)
 
 class ReviewsController {
 
@@ -23,13 +23,13 @@ class ReviewsController {
 
 		if(org_id) {
 			try {
-				const result = await Reviews.findAll({
+				const result = await Review.findAll({
 					attributes: ['id', 'subject', 'num_stars', 'created_at'],
 					include: [{
-						model: Users,
+						model: User,
 						attributes: ['id','firstname', 'lastname', 'email']
 					}, {
-						model: Orgs,
+						model: Org,
 						attributes: ['id','name']
 					}],
 					where: { org_id: org_id }
@@ -61,13 +61,13 @@ class ReviewsController {
 
 		if(id) {
 			try {
-				const result = await Reviews.findOne({
+				const result = await Review.findOne({
 					attributes: ['id', 'subject', 'comment', 'num_stars', 'created_at'],
 					include: [{
-						model: Users,
+						model: User,
 						attributes: ['firstname', 'lastname', 'email']
 					}, {
-						model: Orgs,
+						model: Org,
 						attributes: ['name']
 					}],
 		
@@ -99,7 +99,7 @@ class ReviewsController {
 		if(subject && comment && num_stars && org_id) {
 			try {
 				req.body.user_id = user_id
-				const model = await Reviews.create(req.body)
+				const model = await Review.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -127,7 +127,7 @@ class ReviewsController {
 
 		if(id, subject && comment && num_stars && is_active) {
 			try {
-				const model = await Reviews.update(req.body, {
+				const model = await Review.update(req.body, {
 					where: { id: id }
 				})
 				return res.json({
@@ -156,7 +156,7 @@ class ReviewsController {
 
 		if(id) {
 			try {
-				await Reviews.destroy({ 
+				await Review.destroy({ 
 					where: { id: req.params.id }
 				})
 				res.status(200).send({

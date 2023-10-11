@@ -3,18 +3,18 @@ import csv from 'csv-parser'
 import path from 'path';
 import sequelize from '../../Config/sequelize.config.js';
 
-import Orgs from '../../Core/Models/org.model.js';
-import Groups from '../../Core/Models/group.model.js';
-import Users from '../../Core/Models/user.model.js';
-import UserGroupRel from '../../Core/Models/user-group-rel.model.js';
+import Orgs from '../../Models/System/org.model.js';
+import Groups from '../../Models/System/group.model.js';
+import Users from '../../Models/System/user.model.js';
+import UserGroupRel from '../../Models/System/user-group-rel.model.js';
 
-import Categories from '../../App/Models/category.model.js';
-import Types from '../../App/Models/type.model.js';
-import Sections from '../../App/Models/section.model.js';
-import CategoryTypeRel from '../../App/Models/category_type_rel.model.js';
-import Reviews from '../../App/Models/review.model.js';
-import Orders from '../../App/Models/order.model.js';
-import Containers from '../../App/Models/container.model.js';
+import Categories from '../../Models/category.model.js';
+import Types from '../../Models/type.model.js';
+import Sections from '../../Models/section.model.js';
+import CategoryTypeRel from '../../Models/category_type_rel.model.js';
+import Reviews from '../../Models/review.model.js';
+import Orders from '../../Models/order.model.js';
+import Containers from '../../Models/container.model.js';
 
 /**
  * Controller for Seed Actions

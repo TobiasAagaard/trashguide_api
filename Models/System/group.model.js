@@ -1,9 +1,9 @@
 import sequelize from '../../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
-class Groups extends Model{}
+class Group extends Model{}
 
-Groups.init({
+Group.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -29,4 +29,4 @@ Groups.init({
 	underscored: true
 })
 
-export default Groups
+export default Group
