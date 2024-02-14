@@ -125,7 +125,9 @@ class ReviewsController {
 	 update = async (req, res) => {
 		const { id, subject, comment, num_stars, is_active } = req.body
 
-		if(id, subject && comment && num_stars && is_active) {
+		console.log(req.body);
+
+		if(id && subject && comment && num_stars && is_active) {
 			try {
 				const model = await Review.update(req.body, {
 					where: { id: id }

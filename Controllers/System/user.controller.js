@@ -10,8 +10,8 @@ User.belongsTo(Org)
 
 // Definerer relation mellem user og usergroups - many to many
 
-User.belongsToMany(Groups, { through: UserGroupRel });
-Groups.belongsToMany(User, { through: UserGroupRel });
+User.belongsToMany(Groups, { through: UserGroupRel }, { onDelete: 'CASCADE' });
+Groups.belongsToMany(User, { through: UserGroupRel }, { onDelete: 'CASCADE' });
 
 /**
  * Controller for User Actions
