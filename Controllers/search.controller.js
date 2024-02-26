@@ -58,6 +58,12 @@ class SearchController {
 			attributes: [
 				"id", 
 				"title",
+				"icon_filename",
+				[Sequelize.fn(	
+					'CONCAT', 
+					'http://localhost:3000/Assets/Images/Guide/Icons/', 
+					Sequelize.col('icon_filename')
+				), 'icon_filepath'],
 				[Sequelize.literal("'category'"), 'type']
 			  ],
 				// where clause
