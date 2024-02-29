@@ -20,7 +20,7 @@ class ReviewsController {
   list = async (req, res) => {
     try {
       const result = await Review.findAll({
-        attributes: ["id", "subject", "num_stars", "created_at"],
+        attributes: ["id", "subject", "comment", "num_stars", "created_at"],
         include: [
           {
             model: User,
@@ -53,7 +53,7 @@ class ReviewsController {
     if (org_id) {
       try {
         const result = await Review.findAll({
-          attributes: ["id", "subject", "num_stars", "created_at"],
+          attributes: ["id", "subject", "comment", "num_stars", "created_at"],
           include: [
             {
               model: User,
