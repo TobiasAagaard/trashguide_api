@@ -105,15 +105,14 @@ class UserController {
 				// Opretter record
 				const model = await User.create(req.body)
 
-				if(groups) {
-					groups.split(',').map(value => {
-						const values = {
-							group_id: +value,
-							user_id: model.id
-						}
-						UserGroupRel.create(values)
-						
-					})
+				if (groups) {
+					console.log("Group:", groups);
+					const groupId = +groups;
+					const values = {
+						group_id: groupId,
+						user_id: model.id
+					};
+					UserGroupRel.create(values);
 				}
 				// Sender nyt id som json object
 				return res.json({
@@ -146,16 +145,16 @@ class UserController {
 					individualHooks: true
 				})
 
-				if(groups) {
-					groups.split(',').map(value => {
-						const values = {
-							group_id: +value,
-							user_id: model.id
-						}
-						UserGroupRel.create(values)
-						
-					})
-				}			
+				if (groups) {
+					console.log("Group:", groups);
+					const groupId = +groups;
+					const values = {
+						group_id: groupId,
+						user_id: model.id
+					};
+					UserGroupRel.create(values);
+				}
+				
 				// Sender nyt id som json object
 				res.json({ 
 					message: 'Record updated' 
